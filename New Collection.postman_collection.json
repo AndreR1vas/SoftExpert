@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "92c97020-f886-4100-abc6-8fe6804b3d1d",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12902392"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"items\":[\n    {\n      \"valor\":40.00,\n      \"produto\":\"X-Burguer\",\n      \"nome\":\"Igor\"  \n    },\n    {\n      \"valor\":2.00,\n      \"produto\":\"BomBom\",\n      \"nome\":\"Igor\"  \n    },\n    {\n      \"valor\":8.00,\n      \"produto\":\"Misto-Quente\",\n      \"nome\":\"Andre\"  \n    }\n  ], \n  \"formaPagamento\":\"PicPay\",\n  \"taxaGarcon\": false,\n  \"totalPagar\":38.00,\n  \"entrega\": 8.00   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/test-softexpert/calcular",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test-softexpert",
+						"calcular"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
