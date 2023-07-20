@@ -5,6 +5,7 @@ import com.zulian.TesteSoftexpert.model.entity.FormaPagamento;
 import com.zulian.TesteSoftexpert.model.entity.Item;
 import com.zulian.TesteSoftexpert.model.entity.ItemPagamento;
 import com.zulian.TesteSoftexpert.model.vo.DividirVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CalcularService {
 
     @Autowired
@@ -23,7 +25,7 @@ public class CalcularService {
        Double valorTotalProdutos = calcularValorTotalProdutos(items);
        for (ItemPagamento item: items){
            item.setPorcentagem(calcularPorcentagemPorPessoa(item.getValor(), valorTotalProdutos));
-           item.setValor(calcularValorPorPessoa(dto.getTaxaGarcon(),valorTotalProdutos, dto.getEntrega(), item));
+           item.setValor(calcularValorPorPessoa(dto.getTotalPagar(), item));
            enviarPagamentos(dto.getFormaPagamento(),item.getValor());
        }
        vo.setItems(items);
@@ -43,35 +45,36 @@ public class CalcularService {
         return valorPorcentual.longValue();
     }
 
-    public Double calcularValorPorPessoa(Boolean taxaGarcon, Double valorTotalProdutos, Double entrega, ItemPagamento item){
+    public Double calcularValorPorPessoa( Double valorTotalProdutos, ItemPagamento item){
         Double valor = 0D;
-
-        if (taxaGarcon){
-          valor = (valorTotalProdutos * 10D)/100D;
-        }
-        if (entrega > 0D){
-          valor = valorTotalProdutos + entrega;
-        }
-        valor = (valor * item.getPorcentagem()) / 100D;
+        valor = (valorTotalProdutos * item.getPorcentagem()) / 100D;
         return valor;
     }
 
     public List<ItemPagamento> separarPorUsuario(DividirDto dto){
-        List<ItemPagamento> items = new ArrayList<>();
-        for(Item item : dto.getItems()){
-            ItemPagamento iten = new ItemPagamento(item.getValor(),item.getNome());
-            if (items.size()>0) {
-               for (ItemPagamento iten1 : items){
-                  if (iten1.getNome() == iten.getNome()){
-                      Double valor = iten1.getValor() + item.getValor();
-                      iten1.setValor(valor);
+      try {
+          List<ItemPagamento> items = new ArrayList<>();
+          for (Item item : dto.getItems()) {
+              ItemPagamento iten = new ItemPagamento(item.getValor(), item.getNome(), 0L);
+              if (items.size() > 0) {
+                  for (ItemPagamento iten1 : items) {
+                      if (iten1.getNome().equalsIgnoreCase(iten.getNome())) {
+                          Double valor = iten1.getValor() + item.getValor();
+                          iten1.setValor(valor);
+                      } else {
+                          items.add(iten);
+                          break;
+                      }
                   }
-               }
-            }else {
-               items.add(iten);
-            }
-        }
-        return items;
+              } else {
+                  items.add(iten);
+              }
+          }
+          return items;
+      }catch (Exception e){
+        log.error(e.getMessage());
+        return null;
+      }
     }
 
     public void enviarPagamentos(FormaPagamento formaPagamento,Double valor){

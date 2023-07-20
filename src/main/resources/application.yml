@@ -5,7 +5,7 @@ server:
 
 enderecos:
   picPay:
-    pagamento: https://appws.picpay.com/ecommerce/public/payments
+    url: https://appws.picpay.com/ecommerce/public/payments
   mercadoPago:
-    pagamento: https://api.mercadopago.com/v1/payments
+    url: https://api.mercadopago.com/v1/payments
     token: https://api.mercadopago.com/oauth/token

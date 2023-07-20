@@ -13,16 +13,11 @@ public class PagamentoService {
     @Autowired
     private MercadoPagoService mercadoPago;
     public void enviarPagamento(FormaPagamento forma, Double valor ){
-        switch (forma){
-            case PicPay ->{
-              picPay.cobranca(valor);
-              break;
-            }
-            case MercadoPago -> {
-               mercadoPago.cobranca(valor);
-              break;
-            }
-
+        if (forma.equals(FormaPagamento.PicPay)){
+            picPay.cobranca(valor);
+        }else{
+            mercadoPago.cobranca(valor);
         }
+
     }
 }

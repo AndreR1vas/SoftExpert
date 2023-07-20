@@ -14,8 +14,8 @@ public class PicPayService {
     @Value("${enderecos.mercadoPago.url}")
     private String url;
 
-    @Autowired
-    private RequisicaoService requisicaoService;
+//    @Autowired
+//    private RequisicaoService requisicaoService;
 
     public void cobranca(Double valor){
       String token="sua chave";

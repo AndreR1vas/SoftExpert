@@ -10,9 +10,10 @@ public class ItemPagamento {
     private String nome;
     private Long porcentagem;
 
-    public ItemPagamento(Double valor, String nome) {
+    public ItemPagamento(Double valor, String nome, Long porcentagem) {
         this.valor = valor;
         this.nome = nome;
+        this.porcentagem = porcentagem;
     }
 
 

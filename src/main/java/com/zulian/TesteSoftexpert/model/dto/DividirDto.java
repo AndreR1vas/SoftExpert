@@ -14,4 +14,5 @@ public class DividirDto {
     private FormaPagamento formaPagamento;
     private Boolean taxaGarcon;
     private Double entrega;
+    private Double totalPagar;
 }
